@@ -13,15 +13,17 @@ import NotFound from './pages/NotFound';
 function App() {
   return (
     <Router>
-      <Header className='bg-blue-950 text-white' />
-      <main className="mt-[80px] px-4"> {/* Adjust top margin to match your fixed header */}
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/texttosign" element={<TextToSign />} />
-          <Route path="/about" element={<About />} />
-          <Route path="*" element={<NotFound />} /> {/* Catch-all route */}
-        </Routes>
-      </main>
+      <div className="bg-gray-50 dark:bg-gray-900 min-h-screen transition-all duration-300">
+        <Header />
+        <main className="mt-[50px]">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/texttosign" element={<TextToSign />} />
+            <Route path="/about" element={<About />} />
+            <Route path="*" element={<NotFound />} /> {/* Catch-all route */}
+          </Routes>
+        </main>
+      </div>
     </Router>
   );
 }

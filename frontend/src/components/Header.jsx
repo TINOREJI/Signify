@@ -30,22 +30,22 @@ function Header() {
   }, [menuOpened]);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-30 w-full">
+    <header className="fixed top-0 left-0 right-0 z-30 w-full transition-all duration-300">
       <div
         className={`${
-          active ? 'bg-white py-2.5' : 'py-3'
-        } max-padd-container flex justify-between items-center transition-all duration-300 px-4`}
+          active ? 'bg-white dark:bg-gray-800 py-2.5 shadow-md' : 'bg-white dark:bg-gray-800 py-3 shadow-sm'
+        } max-padd-container flex justify-between items-center px-4 transition-all duration-300`}
       >
         {/* Logo */}
         <Link to="/" className="flex items-center justify-start flex-1">
           <img
             src={logo}
             alt="App Logo"
-            height={32}
-            width={32}
-            className="rounded-full mr-2"
+            height={36}
+            width={36}
+            className="rounded-full mr-3 transition-all duration-200 hover:scale-105"
           />
-          <h4 className="text-blue-950 font-bold text-xl">Signify</h4>
+          <h4 className="text-violet-700 dark:text-violet-300 font-bold text-2xl tracking-tight">Signify</h4>
         </Link>
 
         {/* Navbar */}
@@ -62,19 +62,19 @@ function Header() {
           {/* Mobile Menu Icon */}
           {!menuOpened && (
             <FiAlignJustify
-              className="text-2xl xl:hidden cursor-pointer"
+              className="text-2xl xl:hidden cursor-pointer text-violet-600 dark:text-violet-400 transition-all duration-200 hover:scale-110"
               aria-label="Open Menu"
               onClick={toggleMenu}
             />
           )}
 
-          {/* Optionally, add a login button or any other functionality */}
+          {/* Login Button */}
           <button
-            className="btn-outline flex items-center gap-x-2"
+            className="flex items-center gap-x-2 px-4 py-2 rounded-xl border border-violet-300 dark:border-violet-600 text-violet-700 dark:text-violet-300 font-medium hover:bg-violet-50 dark:hover:bg-violet-900/30 transition-all duration-200 shadow-sm hover:shadow-md focus:ring-2 focus:ring-violet-400/50"
             aria-label="Login Button"
           >
-            <FaRegUserCircle className='text-xl text-blue-950' />
-            {/* Add Login/Sign-Up functionality here if needed */}
+            <FaRegUserCircle className="text-xl text-violet-600 dark:text-violet-400" />
+            <span>Login</span>
           </button>
         </div>
       </div>

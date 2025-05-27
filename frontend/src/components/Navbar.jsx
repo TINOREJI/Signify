@@ -1,69 +1,99 @@
-import React from 'react';
-import { NavLink, Link } from 'react-router-dom';
-import { FaHome } from "react-icons/fa";
-import { MdOutlineGTranslate } from "react-icons/md";
-import { IoIosInformationCircleOutline } from "react-icons/io";
-import { IoMailOpenOutline } from "react-icons/io5";
-import { FaRegWindowClose } from "react-icons/fa";
-import logo from '/assets/logo.png'; // Replace with your actual logo
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import logo from '/assets/logo.png'; // Replace with your actual logo path
+import Navbar from './Navbar';
+import { FiAlignJustify } from "react-icons/fi";
+import { FaRegUserCircle } from "react-icons/fa";
 
-const Navbar = ({ containerStyles, menuOpened, toggleMenu }) => {
-  const NavItems = [
-    { to: '/', label: 'Home', icon: <FaHome /> },
-    { to: '/texttosign', label: 'Text to Sign', icon: <MdOutlineGTranslate /> },
-    { to: '/about', label: 'About', icon: <IoIosInformationCircleOutline /> },
-    { to: 'mailto:contact@signifyapp.com', label: 'Contact', icon: <IoMailOpenOutline /> },
-  ];
+function Header() {
+  const [menuOpened, setMenuOpened] = useState(false);
+  const [active, setActive] = useState(false);
+
+  const toggleMenu = () => {
+    setMenuOpened(!menuOpened);
+  };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 0) {
+        if (menuOpened) {
+          setMenuOpened(false);
+        }
+      }
+      setActive(window.scrollY > 30);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [menuOpened]);
 
   return (
-    <nav className={containerStyles}>
-      {/* Close Button (Visible on mobile when menu is open) */}
-      {menuOpened && (
-        <>
-          <FaRegWindowClose
-            onClick={toggleMenu}
-            className="text-xl self-end cursor-pointer relative left-[18px] mb-4"
+    <header className="fixed top-0 left-0 right-0 z-30 w-full transition-all duration-300">
+      <div
+        className={`${
+          active ? 'bg-white dark:bg-gray-800 py-2.5 shadow-md' : 'bg-white dark:bg-gray-800 py-3 shadow-sm'
+        } max-padd-container flex justify-between items-center px-4 transition-all duration-300`}
+      >
+        {/* Logo */}
+        <Link to="/" className="flex items-center justify-start flex-1">
+          <img
+            src={logo}
+            alt="App Logo"
+            height={36}
+            width={36}
+            className="rounded-full mr-3 transition-all duration-200 hover:scale-105"
           />
+          <h4 className="text-violet-700 dark:text-violet-300 font-bold text-2xl tracking-tight">Signify</h4>
+        </Link>
 
-          {/* Logo */}
-          <Link to="/" className="bold-24 mb-10 flex items-center justify-center">
-            <img src={logo} alt="App Logo" height={50} width={50} className="sm:flex mr-2 rounded-full" />
-            <h4 className="text-blue-950">Signify</h4>
-          </Link>
-        </>
-      )}
+        {/* Navbar (Top Bar on Desktop) */}
+        <div className="flex-1 hidden xl:flex justify-center gap-x-8 xl:gap-x-14">
+          <Navbar
+            menuOpened={menuOpened}
+            toggleMenu={toggleMenu}
+            containerStyles="flex gap-x-8"
+          />
+        </div>
 
-      {/* Navigation Items */}
-      {NavItems.map(({ to, label, icon }) =>
-        to.startsWith('mailto') ? (
-          <a
-            key={label}
-            onClick={menuOpened ? toggleMenu : undefined}
-            href={to}
-            className="flex items-center gap-x-2 text-blue-950"
+        {/* Right Side */}
+        <div className="flex items-center justify-end gap-x-3 sm:gap-x-10 flex-1">
+          {/* Mobile Menu Icon */}
+          {!menuOpened && (
+            <FiAlignJustify
+              className="text-2xl xl:hidden cursor-pointer text-violet-600 dark:text-violet-400 transition-all duration-200 hover:scale-110"
+              aria-label="Open Menu"
+              onClick={toggleMenu}
+            />
+          )}
+
+          {/* Login Button */}
+          <button
+            className="flex items-center gap-x-2 px-4 py-2 rounded-xl border border-violet-300 dark:border-violet-600 text-violet-700 dark:text-violet-300 font-medium hover:bg-violet-50 dark:hover:bg-violet-900/30 transition-all duration-200 shadow-sm hover:shadow-md focus:ring-2 focus:ring-violet-400/50"
+            aria-label="Login Button"
           >
-            <span className="text-xl">{icon}</span>
-            <span className="medium-16">{label}</span>
-          </a>
-        ) : (
-          <div key={label} className="inline-flex items-center">
-            <NavLink
-              to={to}
-              className={({ isActive }) =>
-                isActive
-                  ? "flex items-center gap-x-2 border-b-2 border-blue-900" // Active link with underline
-                  : "flex items-center gap-x-2"
-              }
-              onClick={menuOpened ? toggleMenu : undefined}
-            >
-              <span className="text-xl text-blue-950">{icon}</span>
-              <span className="medium-16 text-blue-950">{label}</span>
-            </NavLink>
-          </div>
-        )
-      )}
-    </nav>
-  );
-};
+            <FaRegUserCircle className="text-xl text-violet-600 dark:text-violet-400" />
+            <span>Login</span>
+          </button>
+        </div>
+      </div>
 
-export default Navbar;
+      {/* Mobile Sidebar (Visible when menu is opened on smaller screens) */}
+      {menuOpened && (
+        <div className="fixed top-0 left-0 w-3/4 h-full bg-white dark:bg-gray-800 shadow-xl z-40 transform transition-transform duration-300 translate-x-0 xl:hidden">
+          <Navbar
+            menuOpened={menuOpened}
+            toggleMenu={toggleMenu}
+            containerStyles="flex flex-col gap-4 p-4"
+          />
+        </div>
+      )}
+      {menuOpened && (
+        <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-30 xl:hidden" onClick={toggleMenu}></div>
+      )}
+    </header>
+  );
+}
+
+export default Header;
