@@ -5,7 +5,7 @@ import { MdOutlineGTranslate } from "react-icons/md";
 import { IoIosInformationCircleOutline } from "react-icons/io";
 import { IoMailOpenOutline } from "react-icons/io5";
 import { FaRegWindowClose } from "react-icons/fa";
-import logo from '../assets/logo.png'; // Replace with your actual logo
+import logo from '/assets/logo.png'; // Replace with your actual logo
 
 const Navbar = ({ containerStyles, menuOpened, toggleMenu }) => {
   const NavItems = [

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import logo from '../assets/logo.png'; // Replace with your actual logo
+import logo from '/assets/logo.png'; // Replace with your actual logo
 import Navbar from './Navbar';
 import { FiAlignJustify } from "react-icons/fi";
 import { FaRegUserCircle } from "react-icons/fa";

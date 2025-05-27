@@ -13,7 +13,7 @@ import NotFound from './pages/NotFound';
 function App() {
   return (
     <Router>
-      <Header />
+      <Header className='bg-blue-950 text-white' />
       <main className="mt-[80px] px-4"> {/* Adjust top margin to match your fixed header */}
         <Routes>
           <Route path="/" element={<Home />} />
