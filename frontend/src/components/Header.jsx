@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import logo from '/assets/logo.png'; // Replace with your actual logo
+import logo from '/assets/logo.png'; // Replace with your actual logo path
 import Navbar from './Navbar';
 import { FiAlignJustify } from "react-icons/fi";
 import { FaRegUserCircle } from "react-icons/fa";
@@ -48,7 +48,7 @@ function Header() {
           <h4 className="text-violet-700 dark:text-violet-300 font-bold text-2xl tracking-tight">Signify</h4>
         </Link>
 
-        {/* Navbar */}
+        {/* Navbar (Top Bar on Desktop) */}
         <div className="flex-1 hidden xl:flex justify-center gap-x-8 xl:gap-x-14">
           <Navbar
             menuOpened={menuOpened}
@@ -78,6 +78,20 @@ function Header() {
           </button>
         </div>
       </div>
+
+      {/* Mobile Sidebar (Visible when menu is opened on smaller screens) */}
+      {menuOpened && (
+        <div className="fixed top-0 left-0 w-3/4 h-full bg-white dark:bg-gray-800 shadow-xl z-40 transform transition-transform duration-300 translate-x-0 xl:hidden">
+          <Navbar
+            menuOpened={menuOpened}
+            toggleMenu={toggleMenu}
+            containerStyles="flex flex-col gap-4 p-4"
+          />
+        </div>
+      )}
+      {menuOpened && (
+        <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-30 xl:hidden" onClick={toggleMenu}></div>
+      )}
     </header>
   );
 }
